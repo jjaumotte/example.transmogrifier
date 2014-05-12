@@ -39,7 +39,7 @@ setup(name='example.transmogrifier',
       zip_safe=False,
       install_requires=[
           'setuptools',
-          # -*- Extra requirements: -*-
+          'collective.transmogrifier',
       ],
       extras_require={'test': ['plone.app.testing']},
       entry_points="""
