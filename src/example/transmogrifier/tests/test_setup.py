@@ -16,3 +16,13 @@ class TestExample(unittest.TestCase):
 
     def test_news_import_transmogrifier(self):
         self.transmogrifier(u'news-import')
+
+    def test_add_type_section(self):
+        from example.transmogrifier.news import AddTypeSection
+        result = AddTypeSection(
+            self.transmogrifier,
+            "test",
+            {'type': 'Document'},
+            [{'foo': 'bar'}]
+        ).__iter__().next()
+        self.assertEqual(result['_type'], 'Document')

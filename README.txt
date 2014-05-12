@@ -14,6 +14,16 @@ Declare c.transmogrifier as a dependency in setup.py::
           'collective.transmogrifier',
       ],
 
+If you use ZopeSkel, make sure the depencencies are included (configure.zcml)::
+
+  <configure
+    xmlns="http://namespaces.zope.org/zope"
+    i18n_domain="example.transmogrifier">
+
+    <includeDependencies package="." />
+
+  </configure>
+
 Run buildout::
 
   $ bin/buildout

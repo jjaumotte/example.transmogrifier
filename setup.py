@@ -40,6 +40,7 @@ setup(name='example.transmogrifier',
       install_requires=[
           'setuptools',
           'collective.transmogrifier',
+          'transmogrify.dexterity',
       ],
       extras_require={'test': ['plone.app.testing']},
       entry_points="""

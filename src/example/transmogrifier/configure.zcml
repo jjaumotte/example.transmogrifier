@@ -22,4 +22,9 @@
     permission="zope2.View"
     />
 
+  <utility
+    component=".news.AddTypeSection"
+    name="example.transmogrifier.news.addtypesection"
+    />
+
 </configure>
