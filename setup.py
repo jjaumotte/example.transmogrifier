@@ -41,6 +41,7 @@ setup(name='example.transmogrifier',
           'setuptools',
           'collective.transmogrifier',
           'transmogrify.dexterity',
+          'plone.app.transmogrifier',
       ],
       extras_require={'test': ['plone.app.testing']},
       entry_points="""
