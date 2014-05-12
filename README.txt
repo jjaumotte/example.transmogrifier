@@ -146,3 +146,79 @@ in the console::
 
   2014-05-12 13:50:25 INFO logger {'description': ' First news item', 'id': 'news-1', 'title': ' News One'}
   2014-05-12 13:50:25 INFO logger {'description': ' Second news item', 'id': 'news-2', 'title': ' News Two'}
+
+Full Example
+------------
+
+plone.app.transmogrifier and transmogrify come with lots of transmogrifier
+pipeline steps. To install those packages just add them to your setup.py::
+
+      install_requires=[
+          ...
+          'transmogrify.dexterity',
+          'plone.app.transmogrifier',
+      ]
+
+Run buildout to fetch the dependencies::
+
+  $ bin/buildout
+
+An example pipeline that reads objects from a CSV file and creates them as
+object in Plone (src/example/transmogrifier/news.cfg)::
+
+  [transmogrifier]
+  pipeline =
+      csvsource
+      content_type
+      title_to_id
+      generate_path
+      disable_versioning
+      constructor
+      enable_versioning
+      schemaupdater
+      reindexobject
+      logger
+
+  [csvsource]
+  blueprint = collective.transmogrifier.sections.csvsource
+  filename = example.transmogrifier:data/news.csv
+
+  [content_type]
+  blueprint = collective.transmogrifier.sections.inserter
+  key = string:_type
+  value = string:Document
+  condition = python:'_type' not in item
+
+  [title_to_id]
+  blueprint = plone.app.transmogrifier.urlnormalizer
+  source-key = title
+  destination-key = string:_generated_id
+  locale = string:en
+  condition = python:'_path' not in item
+
+  [generate_path]
+  blueprint = collective.transmogrifier.sections.inserter
+  key = string:_path
+  value = python:(item['_folder'] + '/' if '_folder' in item else '') + item['_generated_id']
+  condition = python:'_path' not in item
+
+  [disable_versioning]
+  blueprint = plone.app.transmogrifier.versioning.disable
+
+  [constructor]
+  blueprint = collective.transmogrifier.sections.constructor
+  required = True
+
+  [enable_versioning]
+  blueprint = plone.app.transmogrifier.versioning.enable
+
+  [schemaupdater]
+  blueprint = transmogrify.dexterity.schemaupdater
+
+  [reindexobject]
+  blueprint = plone.app.transmogrifier.reindexobject
+
+  [logger]
+  blueprint = collective.transmogrifier.sections.logger
+  name = Object created
+  level = INFO
