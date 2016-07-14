@@ -11,3 +11,10 @@ class ImportForm(form.Form):
     def handle_import_news(self, action):
         transmogrifier = Transmogrifier(getSite())
         transmogrifier(u'news-import')
+
+class ImportTournaiForm(form.Form):
+
+    @button.buttonAndHandler(u'Import Tournai Data')
+    def handle_import_news(self, action):
+        transmogrifier = Transmogrifier(getSite())
+        transmogrifier(u'tournai-import')

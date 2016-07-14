@@ -6,25 +6,39 @@
     xmlns:transmogrifier="http://namespaces.plone.org/transmogrifier"
     i18n_domain="example.transmogrifier">
 
-  <includeDependencies package="." />
+    <includeDependencies package="." />
 
-  <transmogrifier:registerConfig
-    name="news-import"
-    title="News import pipeline"
-    description="Transmogrifier pipeline to import news"
-    configuration="news.cfg"
+    <transmogrifier:registerConfig
+      name="news-import"
+      title="News import pipeline"
+      description="Transmogrifier pipeline to import news"
+      configuration="news.cfg"
+      />
+
+    <transmogrifier:registerConfig
+      name="tournai-import"
+      title="Doornik import pipeline"
+      description="Transmogrifier pipeline to import tournai urban data"
+      configuration="Tournai.cfg"
+      />
+
+    <browser:page
+      name="news-import"
+      for="Products.CMFPlone.interfaces.siteroot.IPloneSiteRoot"
+      class=".browser.ImportForm"
+      permission="zope2.View"
+      />
+
+    <browser:page
+      name="tournai-import"
+      for="Products.CMFPlone.interfaces.siteroot.IPloneSiteRoot"
+      class=".browser.ImportTournaiForm"
+      permission="zope2.View"
+      />
+
+    <utility
+      component=".importurban.ImportUrbanSection"
+      name="example.transmogrifier.importurban"
     />
 
-  <browser:page
-    name="news-import"
-    for="Products.CMFPlone.interfaces.siteroot.IPloneSiteRoot"
-    class=".browser.ImportForm"
-    permission="zope2.View"
-    />
-
-  <utility
-    component=".news.AddTypeSection"
-    name="example.transmogrifier.news.addtypesection"
-    />
-
-</configure>
+  </configure>
